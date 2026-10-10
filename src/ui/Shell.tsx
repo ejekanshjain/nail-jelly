@@ -45,11 +45,14 @@ const CANVAS_LABELS: Record<SceneId, string> = {
  */
 export function Shell({
   motion,
-  skipColdOpen
+  skipColdOpen,
+  skipToEnding
 }: {
   /** Listen to tilt sensors; false when you refused motion access. */
   motion: boolean
   skipColdOpen: boolean
+  /** Dev only: build a finished wall and play the ending once the dev API loads. */
+  skipToEnding: boolean
 }) {
   const { canvasRef, viewport } = useGameCanvas({
     width: DESIGN_WIDTH,
@@ -76,6 +79,7 @@ export function Shell({
         const installed = installDevApi(game)
         disposeDev = installed.dispose
         setDev(installed.actions)
+        if (skipToEnding) installed.skipToEnding()
       })
     }
     return () => {
@@ -84,7 +88,7 @@ export function Shell({
       detach()
       disposeDev()
     }
-  }, [game, viewport])
+  }, [game, viewport, skipToEnding])
 
   // The canvas stays the second child in both layouts, so React never remounts it.
   return (

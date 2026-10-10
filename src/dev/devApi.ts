@@ -55,6 +55,7 @@ let trayCount = 0
 export function installDevApi(game: Game): {
   actions: DevAction[]
   dispose: () => void
+  skipToEnding: () => boolean
 } {
   const { state, wall, economy } = game
 
@@ -412,6 +413,24 @@ export function installDevApi(game: Game): {
     return { bodies: wall.liveCount, proxies: game.proxies.proxies.size }
   }
 
+  /**
+   * Builds a full wall, calls the uncle and starts his test 3s from passing, with the
+   * fly and the slam already done. The loop then plays the win, the collapse and the ending.
+   */
+  const skipToEnding = () => {
+    // The Shell reinstalls this API on resize; only the first call builds the wall.
+    if (state.phase !== 'cold-open' && state.phase !== 'play') return false
+    perfScene('final')
+    const final = state.final
+    if (final?.stage !== 'touches') return false
+    simulate(STEP / 1000)
+    if (state.final?.stage !== 'test') return false
+    state.final.holdLeftMs = 3000
+    state.final.flown = true
+    state.final.slammed = true
+    return true
+  }
+
   const api = {
     get state() {
       return state
@@ -675,6 +694,7 @@ export function installDevApi(game: Game): {
       recordMs: game.timings.recordMs
     }),
     perfScene,
+    skipToEnding,
     /** Steps the loop and times physics, drawing and the recorder per step (M29). */
     probe: (steps = 120) => perfProbe(game, steps),
     /** Pixel memory of every live canvas, grouped by size (M29). */
@@ -766,5 +786,5 @@ export function installDevApi(game: Game): {
       }
     }
   ]
-  return { actions, dispose }
+  return { actions, dispose, skipToEnding }
 }

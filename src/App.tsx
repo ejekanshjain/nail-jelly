@@ -9,9 +9,11 @@ import {
 import { JellyDoodle } from './ui/icons'
 import { Shell } from './ui/Shell'
 
+const params = new URLSearchParams(location.search)
+/** Dev only: `?ending` builds a finished wall and plays the final test's win and ending. */
+const ENDING = import.meta.env.DEV && params.has('ending')
 /** Dev only: `?skip` jumps past the start screen and the cold open, for automation. */
-const SKIP =
-  import.meta.env.DEV && new URLSearchParams(location.search).has('skip')
+const SKIP = (import.meta.env.DEV && params.has('skip')) || ENDING
 
 /** The start screen, then the game. Nothing saves, so a reload starts here again. */
 export function App() {
@@ -36,5 +38,11 @@ export function App() {
         </StartScreen>
       </GameLayout>
     )
-  return <Shell motion={motion !== 'denied'} skipColdOpen={SKIP} />
+  return (
+    <Shell
+      motion={motion !== 'denied'}
+      skipColdOpen={SKIP}
+      skipToEnding={ENDING}
+    />
+  )
 }
