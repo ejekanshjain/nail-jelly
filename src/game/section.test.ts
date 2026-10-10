@@ -83,7 +83,7 @@ describe('section hold', () => {
     expect(events.filter(e => e.type === 'lock')).toHaveLength(1)
   })
 
-  it('pays each block 4 coins once after it holds long enough', () => {
+  it('pays each block 12 coins once after it holds long enough', () => {
     const { wallet, events, step, fill } = setup()
     fill(1)
     step(PAY_HELD_MS / 1000 - 1)
@@ -92,7 +92,7 @@ describe('section hold', () => {
     step(2)
     step(5)
     expect(events.filter(e => e.type === 'pay')).toHaveLength(1)
-    expect(wallet.coins() - before).toBe(4)
+    expect(wallet.coins() - before).toBe(12)
   })
 
   it('grades a locked section by its weakest grip', () => {
@@ -100,7 +100,7 @@ describe('section hold', () => {
     expect(gradeFor(0.6)).toBe('B')
     expect(gradeFor(0.5)).toBe('C')
     expect(gradeFor(0.2)).toBe('D')
-    expect([0, 1, 2, 3, 4].map(lockBonus)).toEqual([15, 20, 25, 30, 35])
+    expect([0, 1, 2, 3, 4].map(lockBonus)).toEqual([45, 60, 75, 90, 105])
   })
 })
 

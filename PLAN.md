@@ -14,7 +14,7 @@ The lead's direction stands, with these changes. Each one names its reason, so t
 4. **Tools are contextual.** The target and the gesture pick the tool: press and hold on jelly hammers, rubbing a splat mops it, tapping a fly swats it. A tool picker would add a tap to every action and a row of buttons to a small phone screen. One hit-priority function settles every overlap (section 6).
 5. **Floor splats are scraped and mopped in one rub.** The first strokes scrape the chunk into the recycled-jelly tub, the rest mop the smear. Recycling becomes part of cleaning instead of a separate menu.
 6. **Noodle reinforcement uses a second 1-minute real-time wait.** The noodles boil on the back hob while you boil and stir, about 57s of work. This follows the "every wait overlaps a chore" rule.
-7. **Odd jobs prevent a soft-lock.** With no coins, no gelatin and no recycled jelly, you could never make another block. The shopkeeper then offers 6 coins for sweeping the shop floor.
+7. **Odd jobs prevent a soft-lock.** With no coins, no gelatin and no recycled jelly, you could never make another block. The shopkeeper then offers 18 coins for sweeping the shop floor.
 8. **The ending adds a collapse.** After the uncle slams the door, the whole wall slides off in slow motion. The replay reads the measured time, such as "Held for 64.8s. Then he shut the door." `DESIGN.md` ends on the shake; drop the collapse if the lead prefers that.
 9. **Pauses can't buy time.** Dialogs and the rotate prompt pause the wall, and push the fridge and noodle finish times later by the paused time. A hidden tab keeps the wall still, then applies the missed grip loss on return, capped at 120s. Waits stay unskippable, reading Settings never costs a block, and pausing never saves one.
 10. **Replays record a small off-screen wall view.** It renders at 300 x 225 px and 20 fps of simulation time. Its own camera follows a falling block to the floor. The recorder's still copies that small source, so the share card picture comes from a separate 960 x 720 render taken mid-fall.
@@ -74,7 +74,7 @@ Rejected or changed:
 | 0:15 | "Drag a block onto the wall." A cartoon hand holds it. "Press on the jelly, hold, and let go in the green." The first try bounces ("boing") or splits ("SPLORCH"). A later one bites ("THUNK") and the hand lets go. | Hammer charge |
 | 0:30 | The block hangs on one nail. Tip: "Add a second nail near the other top corner." Ignore it and the block turns around its nail and rips off after 8 to 10s. SPLAT, a "Held for 9.1s" replay, and your uncle laughs. | Two nails, by failing |
 | 1:15 | You nail the other blocks with two nails each. | Rhythm |
-| 2:10 | The first block passes 60s held: a coin pops "+4". "Every block that holds for 60 seconds pays." "You need 12. Make more jelly." | Coins |
+| 2:10 | The first block passes 60s held: a coin pops "+12". "Every block that holds for 60 seconds pays." "You need 12. Make more jelly." | Coins |
 | 2:20 | Kitchen: **Fresh Batch**. Stove: hold to heat and keep the needle in the green for 8s. | Boiling |
 | 2:50 | Bowl: draw 50 circles. At circle 20 a fly lands in the bowl; tap it ("Extra protein."). "Halfway. Your arm hurts." at 25. | Stirring, swatting |
 | 3:45 | Pour 4 moulds, fridge. "Start the next batch while this one sets." Wash the bowl, start boiling. Block 2 sags on the wall: "Hammer its nail back in." | Pipelining, re-nailing |
@@ -354,8 +354,8 @@ slack        = 26 * (1 - g)^1.5       (pin length: g 1: 0, g 0.6: 6.6, g 0.3: 15
 
 1. The active section's empty cells show dashed ghost outlines. Blocks wait on the stool, up to 12. The strip shows 5 slots, and the last one stacks the rest with a "+N" label.
 2. Once 12 blocks are up and no hand is holding one, the hold countdown starts at `HOLD_MS`. A fall, or a drop below 12, resets it to full and stops it. From section 2, one event from the section's pool strikes at a random time 20s to 50s into each hold. The last 10s play a rising drum roll.
-3. Each block pays 4 coins once when its held time passes `PAY_HELD_MS`.
-4. At zero, the section locks. Lock bonus: 10 + 5 x section number (15, 20, 25, 30, 35).
+3. Each block pays 12 coins once when its held time passes `PAY_HELD_MS`.
+4. At zero, the section locks. Lock bonus: 30 + 15 x section number (45, 60, 75, 90, 105).
 5. Locking snapshots each block: the 12 particle positions relative to its cell, q, flavour, the torn spring indices, holes, mesh and noodle flags, and each fixing (particle index, world point, grip, re-hammers, kind). Then it paints the blocks, cling film, padlock and grade sticker into the section's `CachedLayer`. Last, it removes every body and pin from the engine.
 6. Grade: A for a weakest grip of 0.75 or more, B for 0.6, C for 0.45, otherwise D. The uncle's portrait smirks at C or D.
 7. Locked sections are frozen under cling film. Grip does not decay there, and events don't touch them. Blocks falling from above slide down in front of them.
@@ -478,13 +478,13 @@ Upgrades have no `requires`; prices pace them. `onBuy` adds the first instance o
 | Mop head | 4 | Cleans 5 smears; stock max 3 |
 
 - Start: 10 coins, 4 gelatin, 40 nails, 1 mop head fitted, 0 spares, 0 tubs.
-- Income: 4 per block at 60s held, plus the lock bonus. A re-lock after a failed final test pays 10.
-- **Odd job:** the shop offers **Sweep the Floor** for 6 coins and 24 strokes. It appears while coins are under 10 and you are stuck: either you can't make a batch (gelatin below a batch, tubs below a recycled batch, and too few coins for the missing gelatin), or you have under 10 nails and can't afford a pack. Pressing it hides the sheet and puts a broom in your hand over six dust piles. A stroke faster than the rub limit doesn't count: dust flies, she sneezes, "ACHOO. Again. Slower." Leaving the shop drops the job's progress.
+- Income: 12 per block at 60s held, plus the lock bonus. A re-lock after a failed final test pays 30.
+- **Odd job:** the shop offers **Sweep the Floor** for 18 coins and 24 strokes. It appears while coins are under 10 and you are stuck: either you can't make a batch (gelatin below a batch, tubs below a recycled batch, and too few coins for the missing gelatin), or you have under 10 nails and can't afford a pack. Pressing it hides the sheet and puts a broom in your hand over six dust piles. A stroke faster than the rub limit doesn't count: dust flies, she sneezes, "ACHOO. Again. Slower." Leaving the shop drops the job's progress.
 - Packs use the shared wallet and stock directly: `wallet.spend(packPrice)` then `stock.add(id, packSize)`, after checking stock room. A pack that would overfill the stock max shows **Full** and doesn't sell.
 - **The shop, as built (M16):** the sheet is React, docked over the counter front and floor (design y 296 to 792). It never pauses the game: a browser check showed grip falling with it open. Each pack card shows what you have and a buy button that explains itself ("Need 3 more", "Full"). The shopkeeper's head draws per frame: eyes down on her phone, up for 1.6s after each purchase, with a speech bubble left of her, clear of the replay corner. Quips: "Jelly again?", "That's your 14th packet today." (gelatin packets bought this run), "Nails. For jelly. Sure.", "Mop heads. Again.", and pokes ("No refunds."). On iPhone 12 Pro the sheet scrolls a little when the odd job shows.
 - **Restock chores:** "Buy gelatin" opens when gelatin is below one batch. "Buy nails" opens below 10 nails. "Buy a mop head" opens when the fitted head has under 2 smears left and no spare remains.
 
-Average-run check: income is 10 + 76 paid blocks x 4 + 125 lock bonus = 439. Spending is about 75 on gelatin, 110 on fixings and 24 on mop heads. That leaves 230, enough for 4 of the 5 upgrades (245 for all 5).
+Average-run check: income is 10 + 76 paid blocks x 12 + 375 lock bonus = 1297. Spending is about 75 on gelatin, 110 on fixings and 24 on mop heads. That leaves about 1088, enough for all 5 upgrades (245) more than 4 times over. Upgrades arrive about 3 times sooner than under the old income.
 
 ### Final Test Model
 
@@ -595,7 +595,7 @@ event impulses on proxies: slam vs += 60 to 120 units/s, va += +-0.8 rad/s
 | An afternoon heat wave softens every block | Heat wave event, curtains | M23 |
 | A fly lands on a block and it tears | Fly event, spring tears every 4s, swat | M22 |
 | The cat jumps at the wall | Cat event, shoo | M22 |
-| Each block that holds 60 seconds pays coins | 4 coins at `PAY_HELD_MS` | M2 |
+| Each block that holds 60 seconds pays coins | 12 coins at `PAY_HELD_MS` | M2 |
 | Fallen jelly is scraped up and recycled into weaker jelly | Tubs, Recycled Batch, q x 0.7 | M14 |
 | Coins buy gelatin, tools and upgrades | Shop sheet | M16 to M19 |
 | Extra gelatin recipe: stiffer, more gelatin per batch | q + 0.08, 0.75 per mould | M17 |
@@ -1013,7 +1013,7 @@ Tests sit next to the code as `*.test.ts`. They cover rules and maths, not rende
 | `grip` | An average block on 2 sweet nails reaches 0.30 in 7.3 min (±0.2). 4 nails decay faster than 2. A fully upgraded block reaches 0.3 in 12 to 15 min. Load, residue, heat, upgrades and their floor, fly, holes and damage factors. Slack at g 1, 0.6 and 0.3. Grip 0.6 survives a slam; grip 0.25 rips on one. `breakGrip` matches the loss formula. A nail just above its orange line survives the section's strongest event. Rip-out at 0.12. |
 | `hit` | Priority order. The 12 CSS px move threshold turns a press into a rub. CSS-px radii at zoom 1 and 0.5. Re-hammer wins over a new nail. |
 | `labels` | Held-for formats under and over 60s, split, hand and carry labels. Each cause has 5 or more blame lines. |
-| `section` | The countdown starts only with 12 up and no hand. A fall resets it. The lock pays the bonus once. A block pays 4 once at `PAY_HELD_MS`. Grades from the weakest grip. |
+| `section` | The countdown starts only with 12 up and no hand. A fall resets it. The lock pays the bonus once. A block pays 12 once at `PAY_HELD_MS`. Grades from the weakest grip. |
 | `pause` | A dialog pause pushes the fridge and noodle finish times later by the paused time. A hidden tab applies at most 120s of grip loss and never advances holds or payouts. |
 | `kitchen` | No pour while the tray is out. Stirring is allowed during the fridge minute. A burn waits for Try Again, which pays for a fresh lot, and can't burn twice; with too little left the batch is thrown out. A finished mix waits for the tray and sets after 120s. |
 | `boil` | The heat curve under hold and release. Noise and bubbles show up while holding. Accuracy from a scripted input. A burn after 1.0s above 0.90, and no burn at 0.99s. |
@@ -1258,6 +1258,16 @@ Ekansh delegated every design, tuning and balance decision to the lead and is no
   - **The floor tip and the wall's mop chore show the floor.** Reason: the floor sits below the screen in sections 3 to 5, and the tip asked you to rub splats you couldn't see.
   - **Stool toasts:** "1 fresh block", and the stool-full toast once per arrival. Reason: copy rules, and a toast on every refill.
   - **Rejected: lengthening the final test's pass path.** It stays about 3.3 minutes, as decided above. Reason: an inspection phase or a longer test would add minutes to every visit and push the one-failure run (87 minutes) past 90. DESIGN.md's "adds 5 to 10 minutes" line needs the owner's rewording: about 3 minutes for a first-time pass, plus about 13 minutes per failure.
+
+## Coin Boost Decision (2026-10-10)
+
+- **All coin income is tripled.** Upgrades come about 3 times sooner, so the game feels faster. New values, old in parentheses:
+  - Block pay: 12 coins per block that holds for 60s (4).
+  - Lock bonus: 30 + 15 x section number, so 45, 60, 75, 90, 105 (15, 20, 25, 30, 35).
+  - Re-lock after a failed final test: 30 (10).
+  - **Sweep the Floor** odd job: 18 coins (6). It still needs 24 strokes and appears under 10 coins.
+- **Kept: prices, starting coins and timers.** You start with 10 coins, and every pack and upgrade costs the same. The 60s hold and payout timers don't change.
+- **Milestone entries above record the old amounts** as they were then. They are history and stay as written.
 
 ## Owner Follow-Ups
 

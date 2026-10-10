@@ -803,10 +803,10 @@ export const PAY_HELD_MS = waitMs(60_000)
 /** The drum roll plays over the last part of the hold. */
 export const DRUM_ROLL_MS = Math.min(10_000, HOLD_MS / 2)
 /** Coins per block that holds for PAY_HELD_MS. */
-export const BLOCK_PAY = 4
-/** Lock bonus: 10 + 5 x section number. */
-export const LOCK_BONUS_BASE = 10
-export const LOCK_BONUS_STEP = 5
+export const BLOCK_PAY = 12
+/** Lock bonus: 30 + 15 x section number. */
+export const LOCK_BONUS_BASE = 30
+export const LOCK_BONUS_STEP = 15
 /** Grade thresholds on the weakest grip at lock. */
 export const GRADES = [
   ['A', 0.75],
@@ -828,7 +828,7 @@ export const MOP_LOW = 2
  * The odd job: sweep the shop floor for coins. It is offered while you have fewer
  * coins than `under` and can't make a batch or restock nails.
  */
-export const ODD_JOB = { pay: 6, strokes: 24, under: 10 } as const
+export const ODD_JOB = { pay: 18, strokes: 24, under: 10 } as const
 /** The shopkeeper looks up from her phone for this long after you buy something. */
 export const LOOK_UP_MS = 1600
 
@@ -974,7 +974,7 @@ export const FINAL = {
   /** …and you get the wall back this long after the last one. */
   afterDropMs: 1800,
   /** A section that locks again after a failed test pays this, not its full bonus. */
-  relockBonus: 10,
+  relockBonus: 30,
   /** The wall held: he stares in silence, hands over his keys, then walks out… */
   stareMs: 2000,
   keysMs: 1600,
